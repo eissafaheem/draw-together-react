@@ -2,6 +2,7 @@ body {
   margin: 0;
   font-family: cursive;
   background-color: black;
+  color: white;
 }
 
 input, textarea, button {font-family: inherit}

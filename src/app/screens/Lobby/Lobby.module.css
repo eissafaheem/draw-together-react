@@ -21,9 +21,9 @@
 }
 
 .actions{
-    margin-top: 5rem;
+    margin-top: 10%;
     display: flex;
-    gap: 5rem;
+    gap: 10%;
 }
 
 .actions form{
@@ -38,5 +38,13 @@
     }
     .illustration{
         margin-top: 10%;
+    }
+
+    .actions{
+        gap: 1rem;
+    }
+
+    .actions form{
+        gap: 0;
     }
 }

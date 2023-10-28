@@ -4,8 +4,12 @@ import lobbyIllustration from './../../../assets/illustration.svg'
 import Navbar from '../../components/navbar/Navbar'
 import Button from '../../components/button/Button'
 import Input from '../../components/input/Input'
+import useLobbyHook from './Lobby.hook'
 
 function Lobby() {
+
+  const {createRoom, joinRoom, onChangeInput} = useLobbyHook();
+
   return (<>
     <Navbar />
     <div className={LobbyStyles['lobby-container']}>
@@ -13,10 +17,10 @@ function Lobby() {
         <h2>Unleash Your Creativity  with DrawTogether!</h2>
         <p>Connect, Collaborate, and Create with Others in Real-Time. <br /> Whether you're brainstorming ideas or just having fun, DrawTogether is here to make your whiteboard sessions come alive.</p>
         <div className={LobbyStyles["actions"]}>
-          <Button type='primary' text='Draw Now' />
+          <Button type='primary' text='Draw Now' onClick={createRoom}/>
           <form>
-            <Input placeholder='Your code here...'/>
-            <Button type='secondary' text="Join" />
+            <Input placeholder='Your code here...' onChange={onChangeInput}/>
+            <Button type='secondary' text="Join" onClick={joinRoom}/>
           </form>
         </div>
       </div>
