@@ -1,0 +1,48 @@
+button {
+    background-color: black;
+    color: white;
+    outline: none;
+    border: 1px solid white;
+    padding: 0.5rem 1rem;
+    cursor: pointer;
+    position: relative;
+    transition: 0.5s ease;
+    
+}
+
+.primary-btn:before,
+.primary-btn:after {
+    content: '';
+    position: absolute;
+    left: -2px;
+    top: -2px;
+    background: linear-gradient(45deg, #fb0094, #0000ff, #00ff00, #ffff00, #ff0000, #fb0094,
+            #0000ff, #00ff00, #ffff00, #ff0000);
+    background-size: 400%;
+    width: calc(100% + 4px);
+    height: calc(100% + 4px);
+    z-index: -1;
+    animation: steam 20s linear infinite;
+}
+
+@keyframes steam {
+    0% {
+        background-position: 0 0;
+    }
+
+    50% {
+        background-position: 400% 0;
+    }
+
+    100% {
+        background-position: 0 0;
+    }
+}
+
+.primary-btn:after {
+    filter: blur(50px);
+}
+
+button:hover{
+    box-shadow: 10px 10px 100px white;
+}

@@ -1,7 +1,7 @@
 import React from 'react'
 import {createBrowserRouter, RouterProvider} from 'react-router-dom';
-import Lobby from './screens/Lobby/Lobby';
-import Room from './screens/Room/Room';
+import Lobby from './screens/lobby/Lobby';
+import Room from './screens/room/Room';
 
 function AppRouting() {
 

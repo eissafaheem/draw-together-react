@@ -1,0 +1,42 @@
+.lobby-container {
+    padding:  0 2rem;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+}
+
+.lobby-container .lobby-content {
+    padding-top: 10%;
+    color: var(--app_font1_color);
+}
+
+.illustration {
+    height: 100%;
+    width: 100%;
+    overflow: hidden;
+}
+
+.illustration img {
+    height: 100%;
+    width: 100%;
+}
+
+.actions{
+    margin-top: 5rem;
+    display: flex;
+    gap: 5rem;
+}
+
+.actions form{
+    display: flex;
+    gap: 1rem;
+}
+
+@media screen and (max-width:950px){
+    .lobby-container{
+        grid-template-columns: 1fr;
+        padding: 1rem;
+    }
+    .illustration{
+        margin-top: 10%;
+    }
+}
