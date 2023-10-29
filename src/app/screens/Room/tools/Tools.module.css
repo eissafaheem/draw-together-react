@@ -1,0 +1,18 @@
+.tools-container{
+    display: flex;
+    gap: 1rem;
+    flex-direction: column;
+    position: absolute;
+    margin: 1rem
+}
+
+.color{
+    height: 1.5rem;
+    width: 1.5rem;
+    border-radius: 50%;
+    cursor: pointer;
+}
+
+.tools-container img{
+    cursor: pointer;
+}
