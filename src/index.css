@@ -26,3 +26,16 @@ body {
   background-color: black;
   border-radius: 100px;
 } */
+
+
+.cursor{
+  border-left: 0.5rem solid transparent;
+  border-right: 0.5rem solid transparent;
+  border-top: 0.5rem solid transparent;
+  border-bottom: 0.5rem solid white;
+  transform: rotate(-45deg);
+  position: absolute;
+  /* top: 0;
+  left: 0; */
+  z-index: 2;
+}
