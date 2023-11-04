@@ -20,31 +20,28 @@ const useRoomHook = () => {
 
     useEffect(() => {
         socket?.on("joinRoom", (roomId) => {
-            // console.log(roomId)
         })
         socket?.on("startDrawing", (data) => {
-            // console.log("start", data)
             const { offsetX, offsetY, color } = data;
             setColor(color)
             startDrawing(offsetX, offsetY, false);
         })
         socket?.on("drawingData", (data) => {
-            // console.log("draw", data)
-            const { offsetX, offsetY, color } = data;
-            draw(offsetX, offsetY, false)
+            const {clientX, clientY, offsetX, offsetY, color } = data;
+            console.log(data)
+
+            cursorMove("ljnl", clientX, clientY)
+            mouseMove(clientX, clientY,offsetX, offsetY, false)
 
         })
         socket?.on("finishDrawing", () => {
-            // console.log("finish")
             finishDrawing(false);
         })
         socket?.on("clearCanvas", () => {
-            console.log("clear")
         })
         socket?.on("cursorMove", (data) => {
-            console.log(data)
-            const { socketId, offsetX, offsetY } = data;
-            // cursorMove(socketId, offsetX, offsetY)
+            const { socketId, clientX, clientY } = data;
+            cursorMove(socketId, clientX, clientY)
         })
     }, [socket])
 
@@ -64,21 +61,15 @@ const useRoomHook = () => {
         contextRef.current = context;
     };
 
-    function cursorMove(socketId: string, offsetX: number, offsetY: number) {
-        let cursor = document.getElementById(socketId);
-        if (!cursor) {
+    function cursorMove(socketId: string, clientX: number = 0, clientY: number = 0) {
+        let cursor: HTMLDivElement | null  = document.querySelector(".cursor");
+        if(!cursor){
             cursor = document.createElement("div");
-            cursor.id = socketId;
-            cursor.style.width = "10rem";
-            cursor.style.height = "10rem";
-            cursor.style.backgroundColor = "white";
-            cursor.style.position = "absolute";
-            document.body.appendChild(cursor);
+            cursor.classList.add("cursor")
+            document.body.appendChild(cursor)
         }
-        cursor.style.left = offsetX.toString();
-        cursor.style.top = offsetY.toString();
-        cursor.style.zIndex = "10";
-        console.log(cursor)
+        cursor.style.left = clientX.toString()+"px";
+        cursor.style.top = clientY.toString()+"px";
     }
 
     function addContext() {
@@ -93,7 +84,6 @@ const useRoomHook = () => {
         if (!contextRef.current) return;
         contextRef.current.beginPath();
         contextRef.current.moveTo(offsetX, offsetY);
-        console.log("start fine")
         setIsDrawing(true);
         if (isMyDrawing) {
             socket?.emit('startDrawing', { offsetX, offsetY, color });
@@ -102,7 +92,6 @@ const useRoomHook = () => {
 
     const finishDrawing = (isMyDrawing: boolean = true) => {
         if (!contextRef.current) return;
-        // console.log("finish fine")
         contextRef.current.closePath();
         setIsDrawing(false);
         if (isMyDrawing) {
@@ -110,13 +99,11 @@ const useRoomHook = () => {
         }
     };
 
-    const draw = (offsetX: number, offsetY: number, isMyDrawing: boolean = true) => {
+    const mouseMove = (clientX: number, clientY: number, offsetX: number, offsetY: number, isMyDrawing: boolean = true) => {
         if (isMyDrawing) {
-            console.log("my cursor", offsetX, offsetY)
             if (!isDrawing) {
-                // socket?.emit("cursorMove", {offsetX,offsetY})
-
-                cursorMove("sdf", offsetX, offsetY)
+                socket?.emit("cursorMove", {clientX, clientY})
+                // cursorMove("jsdfn", clientX, clientY)
                 return;
             }
         }
@@ -124,7 +111,7 @@ const useRoomHook = () => {
         contextRef.current.lineTo(offsetX, offsetY);
         contextRef.current.stroke();
         if (isMyDrawing) {
-            socket?.emit('drawingData', { offsetX, offsetY, color })
+            socket?.emit('drawingData', {clientX, clientY, offsetX, offsetY, color })
         }
     };
 
@@ -134,7 +121,7 @@ const useRoomHook = () => {
         prepareCanvas,
         startDrawing,
         finishDrawing,
-        draw,
+        mouseMove,
         setColor,
     };
 }

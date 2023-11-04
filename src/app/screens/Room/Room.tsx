@@ -9,7 +9,7 @@ function Room() {
     canvasRef,
     startDrawing,
     finishDrawing,
-    draw,
+    mouseMove,
     setColor
   } = useRoomHook();
 
@@ -18,7 +18,12 @@ function Room() {
       <Tools setValue={setColor} canvasRef={canvasRef} />
       <canvas className={RoomStyles['canvas']} onMouseDown={(event)=>startDrawing(event.nativeEvent.offsetX,event.nativeEvent.offsetY)}
         onMouseUp={()=>finishDrawing()}
-        onMouseMove={(event)=>draw(event.nativeEvent.offsetX,event.nativeEvent.offsetY)}
+        onMouseMove={(event)=>mouseMove(
+          event.clientX,
+          event.clientY,
+          event.nativeEvent.offsetX,
+          event.nativeEvent.offsetY
+          )}
         ref={canvasRef}>
       </canvas>
     </div>
