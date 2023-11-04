@@ -30,7 +30,7 @@ function Tools(props: ToolsProps) {
                 )
             }
             <img src={eraserIcon} alt="" onClick={() => setValue("black")} />
-            <img src={deleteIcon} alt="" onClick={clearCanvas} />
+            <img src={deleteIcon} alt="" onClick={()=>clearCanvas()} />
             <img src={downloadIcon} alt="" onClick={() => setValue("white")} />
         </div>
     )

@@ -86,27 +86,27 @@ const useRoomHook = () => {
         context.strokeStyle = color;
     }
 
-    const startDrawing = (offsetX: number, offsetY: number, isMyDrawing: boolean = true) => {
+    const startDrawing = (offsetX: number, offsetY: number, isMyAction: boolean = true) => {
         if (!contextRef.current) return;
         contextRef.current.beginPath();
         contextRef.current.moveTo(offsetX, offsetY);
         setIsDrawing(true);
-        if (isMyDrawing) {
+        if (isMyAction) {
             socket?.emit('startDrawing', { offsetX, offsetY, color });
         }
     };
 
-    const finishDrawing = (isMyDrawing: boolean = true) => {
+    const finishDrawing = (isMyAction: boolean = true) => {
         if (!contextRef.current) return;
         contextRef.current.closePath();
         setIsDrawing(false);
-        if (isMyDrawing) {
+        if (isMyAction) {
             socket?.emit('finishDrawing');
         }
     };
 
-    const mouseMove = (clientX: number, clientY: number, offsetX: number, offsetY: number, isMyDrawing: boolean = true) => {
-        if (isMyDrawing) {
+    const mouseMove = (clientX: number, clientY: number, offsetX: number, offsetY: number, isMyAction: boolean = true) => {
+        if (isMyAction) {
             if (!isDrawing) {
                 socket?.emit("cursorMove", { clientX, clientY })
                 // cursorMove("jsdfn", clientX, clientY)
@@ -116,7 +116,7 @@ const useRoomHook = () => {
         if (!contextRef.current) return;
         contextRef.current.lineTo(offsetX, offsetY);
         contextRef.current.stroke();
-        if (isMyDrawing) {
+        if (isMyAction) {
             socket?.emit('drawingData', { clientX, clientY, offsetX, offsetY, color })
         }
     };
