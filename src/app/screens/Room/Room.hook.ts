@@ -2,6 +2,7 @@ import { useEffect, useRef, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom'
 import { useSocketContext } from '../../context/SocketProvider';
 import { truncate } from 'fs/promises';
+import { userColors } from '../../utils/colors';
 
 const useRoomHook = () => {
     const { roomId } = useParams();
@@ -11,6 +12,7 @@ const useRoomHook = () => {
     const [myName, setMyName] = useState("User")
     const canvasRef = useRef<HTMLCanvasElement>(null);
     const contextRef = useRef<CanvasRenderingContext2D | null>(null);
+    let userColorIndex = 0;
     const socket = useSocketContext();
     useEffect(() => {
         prepareCanvas();
@@ -30,15 +32,16 @@ const useRoomHook = () => {
             startDrawing(offsetX, offsetY, false);
         })
         socket?.on("drawingData", (data) => {
-            const { 
+            const {
                 socketId,
+                myName,
                 clientX,
                 clientY,
                 offsetX,
                 offsetY,
                 color } = data;
 
-            cursorMove(socketId, clientX, clientY)
+            cursorMove(socketId, myName, clientX, clientY)
             mouseMove(clientX, clientY, offsetX, offsetY, false)
 
         })
@@ -48,8 +51,8 @@ const useRoomHook = () => {
         socket?.on("clearCanvas", () => {
         })
         socket?.on("cursorMove", (data) => {
-            const { socketId, clientX, clientY } = data;
-            cursorMove(socketId, clientX, clientY)
+            const { socketId, myName, clientX, clientY } = data;
+            cursorMove(socketId, myName, clientX, clientY)
         })
     }, [socket])
 
@@ -69,18 +72,29 @@ const useRoomHook = () => {
         contextRef.current = context;
     };
 
-    function cursorMove(socketId: string, clientX: number = 0, clientY: number = 0) {
+    function cursorMove(socketId: string, myName: string, clientX: number = 0, clientY: number = 0) {
         let cursor: HTMLElement | null = document.getElementById(socketId);
         if (!cursor) {
             cursor = document.createElement("div");
             cursor.id = socketId;
-            cursor.classList.add("cursor")
-            document.body.appendChild(cursor)
+            cursor.classList.add("cursor");
+            cursor.style.borderBottomColor = userColors[userColorIndex];
+            document.body.appendChild(cursor);
+
+            let textElement = document.createElement("p");
+            textElement.classList.add("text");
+            textElement.textContent = myName;
+            textElement.style.color = userColors[userColorIndex]
+            cursor.appendChild(textElement);
+            userColorIndex = userColorIndex + 1;
+            if (userColorIndex === userColors.length) {
+                userColorIndex = 0;
+            }
         }
+
         cursor.style.left = clientX.toString() + "px";
         cursor.style.top = clientY.toString() + "px";
     }
-
     function addContext() {
         const canvas = canvasRef.current
         if (!canvas) return;
@@ -111,7 +125,7 @@ const useRoomHook = () => {
     const mouseMove = (clientX: number, clientY: number, offsetX: number, offsetY: number, isMyAction: boolean = true) => {
         if (isMyAction) {
             if (!isDrawing) {
-                socket?.emit("cursorMove", { clientX, clientY })
+                socket?.emit("cursorMove", { myName, clientX, clientY })
                 // cursorMove("jsdfn", clientX, clientY)
                 return;
             }
@@ -120,7 +134,7 @@ const useRoomHook = () => {
         contextRef.current.lineTo(offsetX, offsetY);
         contextRef.current.stroke();
         if (isMyAction) {
-            socket?.emit('drawingData', { clientX, clientY, offsetX, offsetY, color })
+            socket?.emit('drawingData', { myName, clientX, clientY, offsetX, offsetY, color })
         }
     };
 

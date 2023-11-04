@@ -1,9 +1,10 @@
 import { useEffect } from "react";
 import { useSocketContext } from "../../../context/SocketProvider";
 import { ToolsProps } from "./Tools";
+import { toolsColors } from "../../../utils/colors";
 
 const useToolsHook = (props: ToolsProps) =>{
-    let colors = ["red", "yellow", "green", "purple", "white"]
+    let colors = toolsColors;
     const { setValue, canvasRef } = props;
     const socket  = useSocketContext();
     

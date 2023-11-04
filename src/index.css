@@ -38,4 +38,16 @@ body {
   /* top: 0;
   left: 0; */
   z-index: 2;
+  /* background-color: yellow; */
+}
+
+.cursor .text {
+  /* transform: rotate(45deg  ); */
+  position: fixed;
+  width: 10rem;
+  bottom: -2rem; 
+  left: 1rem;
+  color: white; 
+  font-size: small; 
+  /* background-color: red; */
 }
