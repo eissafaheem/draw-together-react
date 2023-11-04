@@ -27,11 +27,16 @@ const useRoomHook = () => {
             startDrawing(offsetX, offsetY, false);
         })
         socket?.on("drawingData", (data) => {
-            const {clientX, clientY, offsetX, offsetY, color } = data;
-            console.log(data)
+            const { 
+                socketId,
+                clientX,
+                clientY,
+                offsetX,
+                offsetY,
+                color } = data;
 
-            cursorMove("ljnl", clientX, clientY)
-            mouseMove(clientX, clientY,offsetX, offsetY, false)
+            cursorMove(socketId, clientX, clientY)
+            mouseMove(clientX, clientY, offsetX, offsetY, false)
 
         })
         socket?.on("finishDrawing", () => {
@@ -62,14 +67,15 @@ const useRoomHook = () => {
     };
 
     function cursorMove(socketId: string, clientX: number = 0, clientY: number = 0) {
-        let cursor: HTMLDivElement | null  = document.querySelector(".cursor");
-        if(!cursor){
+        let cursor: HTMLElement | null = document.getElementById(socketId);
+        if (!cursor) {
             cursor = document.createElement("div");
+            cursor.id = socketId;
             cursor.classList.add("cursor")
             document.body.appendChild(cursor)
         }
-        cursor.style.left = clientX.toString()+"px";
-        cursor.style.top = clientY.toString()+"px";
+        cursor.style.left = clientX.toString() + "px";
+        cursor.style.top = clientY.toString() + "px";
     }
 
     function addContext() {
@@ -102,7 +108,7 @@ const useRoomHook = () => {
     const mouseMove = (clientX: number, clientY: number, offsetX: number, offsetY: number, isMyDrawing: boolean = true) => {
         if (isMyDrawing) {
             if (!isDrawing) {
-                socket?.emit("cursorMove", {clientX, clientY})
+                socket?.emit("cursorMove", { clientX, clientY })
                 // cursorMove("jsdfn", clientX, clientY)
                 return;
             }
@@ -111,7 +117,7 @@ const useRoomHook = () => {
         contextRef.current.lineTo(offsetX, offsetY);
         contextRef.current.stroke();
         if (isMyDrawing) {
-            socket?.emit('drawingData', {clientX, clientY, offsetX, offsetY, color })
+            socket?.emit('drawingData', { clientX, clientY, offsetX, offsetY, color })
         }
     };
 
