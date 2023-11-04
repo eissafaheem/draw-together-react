@@ -1,11 +1,14 @@
 import { useEffect, useRef, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom'
 import { useSocketContext } from '../../context/SocketProvider';
+import { truncate } from 'fs/promises';
 
 const useRoomHook = () => {
     const { roomId } = useParams();
     const [isDrawing, setIsDrawing] = useState(false)
+    const [isModalVisible, setIsModalVisible] = useState(true)
     const [color, setColor] = useState("white")
+    const [myName, setMyName] = useState("User")
     const canvasRef = useRef<HTMLCanvasElement>(null);
     const contextRef = useRef<CanvasRenderingContext2D | null>(null);
     const socket = useSocketContext();
@@ -129,6 +132,10 @@ const useRoomHook = () => {
         finishDrawing,
         mouseMove,
         setColor,
+        setMyName,
+        isModalVisible,
+        setIsModalVisible,
+        myName
     };
 }
 
