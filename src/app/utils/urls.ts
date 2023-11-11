@@ -1,0 +1,1 @@
+export const SOCKETIO_URL = "https://draw-together-backend-2yig.onrender.com";

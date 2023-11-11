@@ -19,7 +19,7 @@ function Lobby() {
         <div className={LobbyStyles["actions"]}>
           <Button type='primary' text='Draw Now' onClick={createRoom}/>
           <form>
-            <Input placeholder='Your code here...' onChange={onChangeInput}/>
+            <Input placeholder='Your room code here...' onChange={onChangeInput}/>
             <Button type='secondary' text="Join" onClick={joinRoom}/>
           </form>
         </div>
