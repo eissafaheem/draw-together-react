@@ -2,11 +2,14 @@ import { useEffect } from "react";
 import { useSocketContext } from "../../../context/SocketProvider";
 import { ToolsProps } from "./Tools";
 import { toolsColors } from "../../../utils/colors";
+import { useNavigate } from "react-router-dom";
+import { ROUTES } from "../../../App.routing";
 
 const useToolsHook = (props: ToolsProps) => {
     let colors = toolsColors;
     const { setValue, canvasRef } = props;
     const socket = useSocketContext();
+    const navigate = useNavigate();
 
     useEffect(() => {
         socket?.on('clearCanvas', () => {
@@ -34,11 +37,16 @@ const useToolsHook = (props: ToolsProps) => {
         link.click();
     }
 
+    function exitRoom() {
+        navigate(ROUTES.lobby);
+    }
+
     return {
         colors,
         clearCanvas,
         setValue,
-        downloadCanvas
+        downloadCanvas,
+        exitRoom
     };
 }
 

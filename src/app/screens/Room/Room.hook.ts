@@ -13,6 +13,8 @@ const useRoomHook = () => {
     const canvasRef = useRef<HTMLCanvasElement>(null);
     const contextRef = useRef<CanvasRenderingContext2D | null>(null);
     let userColorIndex = 0;
+    let joinedUserSocketIds: string[] = [];
+    
     const socket = useSocketContext();
     useEffect(() => {
         prepareCanvas();
@@ -80,7 +82,8 @@ const useRoomHook = () => {
             cursor.classList.add("cursor");
             cursor.style.borderBottomColor = userColors[userColorIndex];
             document.body.appendChild(cursor);
-
+            joinedUserSocketIds.push(socketId);
+            
             let textElement = document.createElement("p");
             textElement.classList.add("text");
             textElement.textContent = myName;
@@ -126,16 +129,13 @@ const useRoomHook = () => {
         if (isMyAction) {
             if (!isDrawing) {
                 socket?.emit("cursorMove", { myName, clientX, clientY })
-                // cursorMove("jsdfn", clientX, clientY)
                 return;
             }
+            socket?.emit('drawingData', { myName, clientX, clientY, offsetX, offsetY, color })
         }
         if (!contextRef.current) return;
         contextRef.current.lineTo(offsetX, offsetY);
         contextRef.current.stroke();
-        if (isMyAction) {
-            socket?.emit('drawingData', { myName, clientX, clientY, offsetX, offsetY, color })
-        }
     };
 
     return {

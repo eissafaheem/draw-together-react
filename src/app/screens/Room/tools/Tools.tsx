@@ -4,6 +4,7 @@ import brushIcon from './../../../../assets/brush.svg'
 import eraserIcon from './../../../../assets/eraser.svg'
 import deleteIcon from './../../../../assets/delete.svg'
 import downloadIcon from './../../../../assets/download.svg'
+import exitIcon from './../../../../assets/exit.svg'
 import useToolsHook from './Tools.hook'
 
 export type ToolsProps = {
@@ -16,7 +17,8 @@ function Tools(props: ToolsProps) {
         colors,
         clearCanvas,
         setValue,
-        downloadCanvas
+        downloadCanvas,
+        exitRoom
     } = useToolsHook(props)
 
     return (
@@ -30,9 +32,10 @@ function Tools(props: ToolsProps) {
                     </div>
                 )
             }
-            <img src={eraserIcon} alt="" onClick={() => setValue("black")} />
-            <img src={deleteIcon} alt="" onClick={() => clearCanvas()} />
-            <img src={downloadIcon} alt="" onClick={downloadCanvas} />
+            <img src={eraserIcon} alt="" onClick={() => setValue("black")} title='Erase'/>
+            <img src={deleteIcon} alt="" onClick={() => clearCanvas()} title='Clear'/>
+            <img src={downloadIcon} alt="" onClick={downloadCanvas} title='Download'/>
+            <img src={exitIcon} alt="" onClick={exitRoom} title='Exit'/>
         </div>
     )
 }
