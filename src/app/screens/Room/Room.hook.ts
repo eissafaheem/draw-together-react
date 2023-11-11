@@ -14,26 +14,38 @@ const useRoomHook = () => {
     const contextRef = useRef<CanvasRenderingContext2D | null>(null);
     let userColorIndex = 0;
     let joinedUserSocketIds: string[] = [];
-    
+
     const socket = useSocketContext();
     useEffect(() => {
         prepareCanvas();
         socket?.emit("joinRoom", roomId);
+
+        return () => {
+            console.log(joinedUserSocketIds)
+            for (let i = 0; i < joinedUserSocketIds.length; i++) {
+                const element = document.getElementById(joinedUserSocketIds[i]);
+                element?.remove();
+                console.log(element);
+            }
+        }
     }, [])
 
     useEffect(() => {
         addContext();
     }, [color])
 
+
     useEffect(() => {
-        socket?.on("joinRoom", (roomId) => {
-        })
-        socket?.on("startDrawing", (data) => {
+        const handleJoinRoom = (roomId: any) => {
+        };
+
+        const handleStartDrawing = (data: any) => {
             const { offsetX, offsetY, color } = data;
             setColor(color)
             startDrawing(offsetX, offsetY, false);
-        })
-        socket?.on("drawingData", (data) => {
+        };
+
+        const handleDrawingData = (data: any) => {
             const {
                 socketId,
                 myName,
@@ -45,18 +57,38 @@ const useRoomHook = () => {
 
             cursorMove(socketId, myName, clientX, clientY)
             mouseMove(clientX, clientY, offsetX, offsetY, false)
+        };
 
-        })
-        socket?.on("finishDrawing", () => {
+        const handleFinishDrawing = () => {
             finishDrawing(false);
-        })
-        socket?.on("clearCanvas", () => {
-        })
-        socket?.on("cursorMove", (data) => {
+        };
+
+        const handleClearCanvas = () => {
+        };
+
+        const handleCursorMove = (data: any) => {
             const { socketId, myName, clientX, clientY } = data;
             cursorMove(socketId, myName, clientX, clientY)
-        })
-    }, [socket])
+        };
+
+        // Register events
+        socket?.on("joinRoom", handleJoinRoom);
+        socket?.on("startDrawing", handleStartDrawing);
+        socket?.on("drawingData", handleDrawingData);
+        socket?.on("finishDrawing", handleFinishDrawing);
+        socket?.on("clearCanvas", handleClearCanvas);
+        socket?.on("cursorMove", handleCursorMove);
+
+        // Unregister events in the cleanup function
+        return () => {
+            socket?.off("joinRoom", handleJoinRoom);
+            socket?.off("startDrawing", handleStartDrawing);
+            socket?.off("drawingData", handleDrawingData);
+            socket?.off("finishDrawing", handleFinishDrawing);
+            socket?.off("clearCanvas", handleClearCanvas);
+            socket?.off("cursorMove", handleCursorMove);
+        };
+    }, [socket]);
 
     const prepareCanvas = () => {
         const canvas = canvasRef.current
@@ -83,7 +115,7 @@ const useRoomHook = () => {
             cursor.style.borderBottomColor = userColors[userColorIndex];
             document.body.appendChild(cursor);
             joinedUserSocketIds.push(socketId);
-            
+
             let textElement = document.createElement("p");
             textElement.classList.add("text");
             textElement.textContent = myName;

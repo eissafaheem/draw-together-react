@@ -25,8 +25,9 @@ function Tools(props: ToolsProps) {
         <div className={ToolsStyles['tools-container']}>
             <img src={brushIcon} alt="" onClick={() => setValue("white")} />
             {
-                colors.map(color =>
+                colors.map((color, index) =>
                     <div
+                        key={index}
                         style={{ backgroundColor: color }} className={ToolsStyles["color"]}
                         onClick={() => setValue(color)}>
                     </div>
