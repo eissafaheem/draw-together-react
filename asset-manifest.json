@@ -1,0 +1,22 @@
+{
+  "files": {
+    "main.css": "/draw-together-react/static/css/main.8bb14c8f.css",
+    "main.js": "/draw-together-react/static/js/main.e98c7114.js",
+    "static/js/787.6dda42db.chunk.js": "/draw-together-react/static/js/787.6dda42db.chunk.js",
+    "static/media/illustration.svg": "/draw-together-react/static/media/illustration.8125431676f015188f82ce66ec50abe0.svg",
+    "index.html": "/draw-together-react/index.html",
+    "static/media/brush.svg": "/draw-together-react/static/media/brush.5286f3c235452cb42076bdb7aae84769.svg",
+    "static/media/exit.svg": "/draw-together-react/static/media/exit.e2f429d7e9489080c7b9719e43c760ef.svg",
+    "static/media/delete.svg": "/draw-together-react/static/media/delete.dc5fbc6a8597273ca4ed1bfebe94707e.svg",
+    "static/media/eraser.svg": "/draw-together-react/static/media/eraser.219aa641327cbea37103729bfb243b3b.svg",
+    "static/media/download.svg": "/draw-together-react/static/media/download.acca12477a0ee12b4edc7303f67500dd.svg",
+    "static/media/close.svg": "/draw-together-react/static/media/close.9f9e154737613e30ee185084bd6884d5.svg",
+    "main.8bb14c8f.css.map": "/draw-together-react/static/css/main.8bb14c8f.css.map",
+    "main.e98c7114.js.map": "/draw-together-react/static/js/main.e98c7114.js.map",
+    "787.6dda42db.chunk.js.map": "/draw-together-react/static/js/787.6dda42db.chunk.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.8bb14c8f.css",
+    "static/js/main.e98c7114.js"
+  ]
+}
