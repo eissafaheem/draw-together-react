@@ -12,12 +12,13 @@ export type ToolsProps = {
 }
 
 function Tools(props: ToolsProps) {
-
-
     const {
         colors,
         clearCanvas,
-        setValue } = useToolsHook(props)
+        setValue,
+        downloadCanvas
+    } = useToolsHook(props)
+
     return (
         <div className={ToolsStyles['tools-container']}>
             <img src={brushIcon} alt="" onClick={() => setValue("white")} />
@@ -30,8 +31,8 @@ function Tools(props: ToolsProps) {
                 )
             }
             <img src={eraserIcon} alt="" onClick={() => setValue("black")} />
-            <img src={deleteIcon} alt="" onClick={()=>clearCanvas()} />
-            <img src={downloadIcon} alt="" onClick={() => setValue("white")} />
+            <img src={deleteIcon} alt="" onClick={() => clearCanvas()} />
+            <img src={downloadIcon} alt="" onClick={downloadCanvas} />
         </div>
     )
 }
