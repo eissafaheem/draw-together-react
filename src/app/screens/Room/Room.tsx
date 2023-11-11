@@ -3,6 +3,7 @@ import useRoomHook from './Room.hook'
 import RoomStyles from './Room.module.css'
 import Tools from './tools/Tools';
 import UserDetailsModal from '../../components/userDetailsModal/UserDetailsModal';
+import Toaster from '../../components/toaster/Toaster';
 
 function Room() {
 
@@ -15,27 +16,36 @@ function Room() {
     setMyName,
     isModalVisible,
     setIsModalVisible,
-    myName
+    myName,
+    roomId,
+    isToasterVisible,
+    setIsToasterVisible
   } = useRoomHook();
 
   return (
-    <div className={RoomStyles['room-container']}>
+    <>
       {
-        isModalVisible &&
-        <UserDetailsModal setUserDetails={setMyName} setIsModalVisible={setIsModalVisible} />
+        isToasterVisible &&
+        <Toaster text={`Your room code is ${roomId}`} setIsToasterVisible={setIsToasterVisible} />
       }
-      <Tools setValue={setColor} canvasRef={canvasRef} />
-      <canvas className={RoomStyles['canvas']} onMouseDown={(event) => startDrawing(event.nativeEvent.offsetX, event.nativeEvent.offsetY)}
-        onMouseUp={() => finishDrawing()}
-        onMouseMove={(event) => mouseMove(
-          event.clientX,
-          event.clientY,
-          event.nativeEvent.offsetX,
-          event.nativeEvent.offsetY
-        )}
-        ref={canvasRef}>
-      </canvas>
-    </div>
+      <div className={RoomStyles['room-container']}>
+        {
+          isModalVisible &&
+          <UserDetailsModal setUserDetails={setMyName} setIsModalVisible={setIsModalVisible} />
+        }
+        <Tools setValue={setColor} canvasRef={canvasRef} />
+        <canvas className={RoomStyles['canvas']} onMouseDown={(event) => startDrawing(event.nativeEvent.offsetX, event.nativeEvent.offsetY)}
+          onMouseUp={() => finishDrawing()}
+          onMouseMove={(event) => mouseMove(
+            event.clientX,
+            event.clientY,
+            event.nativeEvent.offsetX,
+            event.nativeEvent.offsetY
+          )}
+          ref={canvasRef}>
+        </canvas>
+      </div>
+    </>
   )
 }
 

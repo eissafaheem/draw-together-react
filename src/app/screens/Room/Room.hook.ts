@@ -7,6 +7,7 @@ import { userColors } from '../../utils/colors';
 const useRoomHook = () => {
     const { roomId } = useParams();
     const [isDrawing, setIsDrawing] = useState(false)
+    const [isToasterVisible, setIsToasterVisible] = useState(true)
     const [isModalVisible, setIsModalVisible] = useState(true)
     const [color, setColor] = useState("white")
     const [myName, setMyName] = useState("User")
@@ -103,6 +104,8 @@ const useRoomHook = () => {
         context.lineCap = "round";
         context.strokeStyle = color;
         context.lineWidth = 3;
+        context.fillStyle = "black";
+        context.fillRect(0, 0, canvas.width, canvas.height);
         contextRef.current = context;
     };
 
@@ -181,7 +184,10 @@ const useRoomHook = () => {
         setMyName,
         isModalVisible,
         setIsModalVisible,
-        myName
+        myName,
+        roomId,
+        setIsToasterVisible,
+        isToasterVisible
     };
 }
 

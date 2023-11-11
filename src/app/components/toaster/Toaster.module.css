@@ -1,0 +1,17 @@
+.toaster-container{
+    position: fixed;
+    top: 0;
+    right: 0;
+    background-color: black;
+    border: 1px solid white;
+    display: flex;
+    align-items: center;
+    padding: 0.5rem 1rem;
+    margin: 1rem;
+    gap: 1rem;
+}
+
+.toaster-container img{
+    height: 1rem;
+    cursor: pointer;
+}
