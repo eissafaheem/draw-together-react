@@ -12,4 +12,8 @@
 
 ![image](https://github.com/eissafaheem/draw-together-react/assets/68000460/c7e1dd12-b29a-418b-bce7-1803471cd923)
 
+## Team members can draw, and can be viewed by others in real time
+
+![image](https://github.com/eissafaheem/draw-together-react/assets/68000460/c2e02a39-fe8b-4560-9532-671a94c3d949)
+
 
